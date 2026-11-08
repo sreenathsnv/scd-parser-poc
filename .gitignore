@@ -1,0 +1,14 @@
+.env
+*.pyc
+__pycache__/
+.venv/
+node_modules/
+dist/
+*.class
+services/*/target/
+services/*/out/
+services/validation-sidecar/rules/ocl/*
+!services/validation-sidecar/rules/ocl/.gitkeep
+services/validation-sidecar/rules/nsd/*
+!services/validation-sidecar/rules/nsd/.gitkeep
+.pytest_cache/

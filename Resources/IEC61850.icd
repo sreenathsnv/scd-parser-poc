@@ -1,0 +1,864 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Created by z003krph with OMICRON IEDScout 5.10 licensed to TЗƧт-ЦƧЗЯ-->
+<!--SCL Schema Version 3.1 (2012/10/22)-->
+<SCL version="2007" revision="B" xmlns="http://www.iec.ch/61850/2003/SCL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.iec.ch/61850/2003/SCL SCL.xsd">
+	<Header id="" version="" revision="" toolID="OMICRON IEDScout" nameStructure="IEDName" />
+	<Communication>
+		<SubNetwork name="NONE" type="8-MMS">
+			<ConnectedAP iedName="TEST_01" apName="P1">
+				<Address>
+					<P type="IP" xsi:type="tP_IP">192.168.0.1</P>
+					<P type="OSI-TSEL" xsi:type="tP_OSI-TSEL">0001</P>
+					<P type="OSI-SSEL" xsi:type="tP_OSI-SSEL">0001</P>
+					<P type="OSI-PSEL" xsi:type="tP_OSI-PSEL">00000001</P>
+					<P type="OSI-AP-Title">1,1,1,999,1</P>
+					<P type="OSI-AP-Invoke" xsi:type="tP_OSI-AP-Invoke">0</P>
+					<P type="OSI-AE-Qualifier" xsi:type="tP_OSI-AE-Qualifier">12</P>
+					<P type="OSI-AE-Invoke" xsi:type="tP_OSI-AE-Invoke">0</P>
+					<P type="MMS-Port" xsi:type="tP_MMS-Port">102</P>
+				</Address>
+			</ConnectedAP>
+		</SubNetwork>
+	</Communication>
+	<IED name="TEST_01">
+		<Services>
+			<DynAssociation />
+			<GetDirectory />
+			<GetDataObjectDefinition />
+			<DataObjectDirectory />
+			<GetDataSetValue />
+			<SetDataSetValue />
+			<DataSetDirectory />
+			<ConfDataSet max="0" modify="false" />
+			<DynDataSet max="42" />
+			<ReadWrite />
+			<ConfReportControl max="0" bufConf="false" />
+			<GetCBValues />
+			<ReportSettings rptID="Dyn" optFields="Dyn" bufTime="Dyn" trgOps="Dyn" intgPd="Dyn" />
+			<ConfLNs fixPrefix="true" fixLnInst="true" />
+			<GOOSE max="0" />
+			<GSSE max="0" />
+			<FileHandling />
+		</Services>
+		<AccessPoint name="P1">
+			<Server>
+				<Authentication none="true" />
+				<LDevice inst="TR">
+					<LN0 lnType="TEST_01TR.LLN0" lnClass="LLN0" inst="">
+						<DOI name="NamPlt">
+							<DAI name="vendor">
+								<Val>Siemens</Val>
+							</DAI>
+							<DAI name="swRev">
+								<Val>2.0</Val>
+							</DAI>
+							<DAI name="d">
+								<Val></Val>
+							</DAI>
+							<DAI name="dU">
+								<Val></Val>
+							</DAI>
+							<DAI name="configRev">
+								<Val>1.0</Val>
+							</DAI>
+							<DAI name="ldNs">
+								<Val>IEC 61850-7-4:2007</Val>
+							</DAI>
+						</DOI>
+						<DOI name="Beh">
+							<DAI name="d">
+								<Val></Val>
+							</DAI>
+							<DAI name="dU">
+								<Val></Val>
+							</DAI>
+						</DOI>
+						<DOI name="Health">
+							<DAI name="d">
+								<Val></Val>
+							</DAI>
+							<DAI name="dU">
+								<Val></Val>
+							</DAI>
+						</DOI>
+						<DOI name="Mod">
+							<DAI name="ctlModel">
+								<Val>direct-with-normal-security</Val>
+							</DAI>
+							<DAI name="d">
+								<Val></Val>
+							</DAI>
+							<DAI name="dU">
+								<Val></Val>
+							</DAI>
+						</DOI>
+						<DOI name="LocKey">
+							<DAI name="d">
+								<Val></Val>
+							</DAI>
+							<DAI name="dU">
+								<Val></Val>
+							</DAI>
+						</DOI>
+						<DOI name="Loc">
+							<DAI name="d">
+								<Val></Val>
+							</DAI>
+							<DAI name="dU">
+								<Val></Val>
+							</DAI>
+						</DOI>
+						<DOI name="LocSta">
+							<DAI name="ctlModel">
+								<Val>direct-with-normal-security</Val>
+							</DAI>
+							<DAI name="d">
+								<Val></Val>
+							</DAI>
+							<DAI name="dU">
+								<Val></Val>
+							</DAI>
+						</DOI>
+						<DOI name="Diag">
+							<DAI name="ctlModel">
+								<Val>direct-with-normal-security</Val>
+							</DAI>
+							<DAI name="d">
+								<Val></Val>
+							</DAI>
+							<DAI name="dU">
+								<Val></Val>
+							</DAI>
+						</DOI>
+						<DOI name="LEDRs">
+							<DAI name="ctlModel">
+								<Val>direct-with-normal-security</Val>
+							</DAI>
+							<DAI name="d">
+								<Val></Val>
+							</DAI>
+							<DAI name="dU">
+								<Val></Val>
+							</DAI>
+						</DOI>
+						<DOI name="MltLev">
+							<DAI name="d">
+								<Val></Val>
+							</DAI>
+							<DAI name="dU">
+								<Val></Val>
+							</DAI>
+							<DAI name="setVal">
+								<Val>0</Val>
+							</DAI>
+						</DOI>
+					</LN0>
+					<LN lnType="TEST_01TR.AGGGIO1" prefix="AG" lnClass="GGIO" inst="1" />
+					<LN lnType="TEST_01TR.ATCC1" lnClass="ATCC" inst="1" />
+					<LN lnType="TEST_01TR.CCGR1" lnClass="CCGR" inst="1" />
+					<LN lnType="TEST_01TR.CS1CCGR1" prefix="CS1" lnClass="CCGR" inst="1" />
+					<LN lnType="TEST_01TR.CS1CCGR1" prefix="CS2" lnClass="CCGR" inst="1" />
+					<LN lnType="TEST_01TR.CSGGIO1" prefix="CS" lnClass="GGIO" inst="1" />
+					<LN lnType="TEST_01TR.EXHVSPTR1" prefix="EXHV" lnClass="SPTR" inst="1" />
+					<LN lnType="TEST_01TR.EXHVSPTR1" prefix="EXLV" lnClass="SPTR" inst="1" />
+					<LN lnType="TEST_01TR.EXHVSPTR1" prefix="EXTE" lnClass="SPTR" inst="1" />
+					<LN lnType="TEST_01TR.GASDTGGIO1" prefix="GASDT" lnClass="GGIO" inst="1" />
+					<LN lnType="TEST_01TR.GASDTSIML1" prefix="GASDT" lnClass="SIML" inst="1" />
+					<LN lnType="TEST_01TR.GASGGIO1" prefix="GAS" lnClass="GGIO" inst="1" />
+					<LN lnType="TEST_01TR.GASH2LGGIO1" prefix="GASH2L" lnClass="GGIO" inst="1" />
+					<LN lnType="TEST_01TR.GASMSGGIO1" prefix="GASMS" lnClass="GGIO" inst="1" />
+					<LN lnType="TEST_01TR.GASMTGGIO1" prefix="GASMT" lnClass="GGIO" inst="1" />
+					<LN lnType="TEST_01TR.GASMTSIML1" prefix="GASMT" lnClass="SIML" inst="1" />
+					<LN lnType="TEST_01TR.GASSIML1" prefix="GAS" lnClass="SIML" inst="1" />
+					<LN lnType="TEST_01TR.GASWTGGIO1" prefix="GASWT" lnClass="GGIO" inst="1" />
+					<LN lnType="TEST_01TR.GASDTSIML1" prefix="GASWT" lnClass="SIML" inst="1" />
+					<LN lnType="TEST_01TR.GGIO1" lnClass="GGIO" inst="1" />
+					<LN lnType="TEST_01TR.HVTCTR1" prefix="HV" lnClass="TCTR" inst="1" />
+					<LN lnType="TEST_01TR.EXHVSPTR1" prefix="INHV" lnClass="SPTR" inst="1" />
+					<LN lnType="TEST_01TR.EXHVSPTR1" prefix="INLV" lnClass="SPTR" inst="1" />
+					<LN lnType="TEST_01TR.EXHVSPTR1" prefix="INTE" lnClass="SPTR" inst="1" />
+					<LN lnType="TEST_01TR.LOADGGIO1" prefix="LOAD" lnClass="GGIO" inst="1" />
+					<LN lnType="TEST_01TR.HVTCTR1" prefix="LV" lnClass="TCTR" inst="1" />
+					<LN lnType="TEST_01TR.MO1SIML1" prefix="MO1" lnClass="SIML" inst="1" />
+					<LN lnType="TEST_01TR.MOSIML1" prefix="MO" lnClass="SIML" inst="1" />
+					<LN lnType="TEST_01TR.OFGGIO1" prefix="OF" lnClass="GGIO" inst="1" />
+					<LN lnType="TEST_01TR.ROGERSIML1" prefix="ROGER" lnClass="SIML" inst="1" />
+					<LN lnType="TEST_01TR.SEBU1CALH1" prefix="SEBU1" lnClass="CALH" inst="1" />
+					<LN lnType="TEST_01TR.SEBU1H1ZBSH1" prefix="SEBU1H1" lnClass="ZBSH" inst="1" />
+					<LN lnType="TEST_01TR.SEBU1H2ZBSH1" prefix="SEBU1H2" lnClass="ZBSH" inst="1" />
+					<LN lnType="TEST_01TR.SEBU1H2ZBSH1" prefix="SEBU1H3" lnClass="ZBSH" inst="1" />
+					<LN lnType="TEST_01TR.SEBU1H4ZBSH1" prefix="SEBU1H4" lnClass="ZBSH" inst="1" />
+					<LN lnType="TEST_01TR.SEBU1HZBSH1" prefix="SEBU1H" lnClass="ZBSH" inst="1" />
+					<LN lnType="TEST_01TR.SEBU1X1ZBSH1" prefix="SEBU1X1" lnClass="ZBSH" inst="1" />
+					<LN lnType="TEST_01TR.SEBU1X2ZBSH1" prefix="SEBU1X2" lnClass="ZBSH" inst="1" />
+					<LN lnType="TEST_01TR.SEBU1X3ZBSH1" prefix="SEBU1X3" lnClass="ZBSH" inst="1" />
+					<LN lnType="TEST_01TR.SEBU1H4ZBSH1" prefix="SEBU1X4" lnClass="ZBSH" inst="1" />
+					<LN lnType="TEST_01TR.SEBU1XZBSH1" prefix="SEBU1X" lnClass="ZBSH" inst="1" />
+					<LN lnType="TEST_01TR.SEBU2H1GGIO1" prefix="SEBU2H1" lnClass="GGIO" inst="1" />
+					<LN lnType="TEST_01TR.SEBU2H1ZBSH1" prefix="SEBU2H1" lnClass="ZBSH" inst="1" />
+					<LN lnType="TEST_01TR.SEBU2H2GGIO1" prefix="SEBU2H2" lnClass="GGIO" inst="1" />
+					<LN lnType="TEST_01TR.SEBU2H1ZBSH1" prefix="SEBU2H2" lnClass="ZBSH" inst="1" />
+					<LN lnType="TEST_01TR.SEBU2H2GGIO1" prefix="SEBU2H3" lnClass="GGIO" inst="1" />
+					<LN lnType="TEST_01TR.SEBU2H3ZBSH1" prefix="SEBU2H3" lnClass="ZBSH" inst="1" />
+					<LN lnType="TEST_01TR.SEBU2HCALH1" prefix="SEBU2H" lnClass="CALH" inst="1" />
+					<LN lnType="TEST_01TR.SEBU2HGGIO1" prefix="SEBU2H" lnClass="GGIO" inst="1" />
+					<LN lnType="TEST_01TR.SEBU2HZBSH1" prefix="SEBU2H" lnClass="ZBSH" inst="1" />
+					<LN lnType="TEST_01TR.SEBU2X1GGIO1" prefix="SEBU2X1" lnClass="GGIO" inst="1" />
+					<LN lnType="TEST_01TR.SEBU2X1ZBSH1" prefix="SEBU2X1" lnClass="ZBSH" inst="1" />
+					<LN lnType="TEST_01TR.SEBU2X1GGIO1" prefix="SEBU2X2" lnClass="GGIO" inst="1" />
+					<LN lnType="TEST_01TR.SEBU2H1ZBSH1" prefix="SEBU2X2" lnClass="ZBSH" inst="1" />
+					<LN lnType="TEST_01TR.SEBU2H2GGIO1" prefix="SEBU2X3" lnClass="GGIO" inst="1" />
+					<LN lnType="TEST_01TR.SEBU2X3ZBSH1" prefix="SEBU2X3" lnClass="ZBSH" inst="1" />
+					<LN lnType="TEST_01TR.SEBU2HCALH1" prefix="SEBU2X" lnClass="CALH" inst="1" />
+					<LN lnType="TEST_01TR.SEBU2XGGIO1" prefix="SEBU2X" lnClass="GGIO" inst="1" />
+					<LN lnType="TEST_01TR.SEBU2XZBSH1" prefix="SEBU2X" lnClass="ZBSH" inst="1" />
+					<LN lnType="TEST_01TR.SEBU2ZBSH1" prefix="SEBU2" lnClass="ZBSH" inst="1" />
+					<LN lnType="TEST_01TR.SIML1" lnClass="SIML" inst="1" />
+					<LN lnType="TEST_01TR.SPTR1" lnClass="SPTR" inst="1" />
+					<LN lnType="TEST_01TR.TAPGGIO1" prefix="TAP" lnClass="GGIO" inst="1" />
+					<LN lnType="TEST_01TR.HVTCTR1" prefix="TE" lnClass="TCTR" inst="1" />
+					<LN lnType="TEST_01TR.WBGGIO1" prefix="WB" lnClass="GGIO" inst="1" />
+				</LDevice>
+			</Server>
+		</AccessPoint>
+	</IED>
+	<DataTypeTemplates>
+		<LNodeType id="TEST_01TR.ATCC1" lnClass="ATCC">
+			<DO name="OpCnt" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="TapPos" type="TEST_01TR.ATCC1.TapPos" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU1CALH1" lnClass="CALH">
+			<DO name="GrWrn02" type="TEST_01TR.SEBU1CALH1.GrWrn02" />
+			<DO name="GrWrn03" type="TEST_01TR.SEBU1CALH1.GrWrn02" />
+			<DO name="GrAlm01" type="TEST_01TR.SEBU1CALH1.GrWrn02" />
+			<DO name="GrWrn01" type="TEST_01TR.SEBU1CALH1.GrWrn02" />
+			<DO name="GrInd01" type="TEST_01TR.SEBU1CALH1.GrWrn02" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU2HCALH1" lnClass="CALH">
+			<DO name="GrAlm" type="TEST_01TR.AGGGIO1.Wrn01" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.CCGR1" lnClass="CCGR">
+			<DO name="OpTmh1" type="TEST_01TR.CCGR1.OpTmh1" />
+			<DO name="OpTmh2" type="TEST_01TR.CCGR1.OpTmh1" />
+			<DO name="OpTmh3" type="TEST_01TR.CCGR1.OpTmh1" />
+			<DO name="OpTmh4" type="TEST_01TR.CCGR1.OpTmh1" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.CS1CCGR1" lnClass="CCGR">
+			<DO name="OilTmpIn" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="OilTmpOut" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="CETmpIn" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="EnvTmp" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.AGGGIO1" lnClass="GGIO">
+			<DO name="Wrn01" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn02" type="TEST_01TR.AGGGIO1.Wrn01" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.CSGGIO1" lnClass="GGIO">
+			<DO name="Ind01" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Ind02" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Ind03" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Ind04" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm01" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnTmp01" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmTmp01" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn02" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmTmp02" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn10" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn11" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmTmp03" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn04" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn05" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm05" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn06" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm06" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm07" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn07" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm08" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn08" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm09" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn09" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm10" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn12" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn13" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn03" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm04" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn01" type="TEST_01TR.AGGGIO1.Wrn01" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.GASDTGGIO1" lnClass="GGIO">
+			<DO name="WrnH2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmH2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnC2H2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmC2H2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnC2H4" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmC2H4" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnCO" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmCO" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnCO2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmCO2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnC2H6" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnCH4" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmCH4" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmC2H6" type="TEST_01TR.AGGGIO1.Wrn01" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.GASGGIO1" lnClass="GGIO">
+			<DO name="AlmH2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnC2H2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmC2H2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnC2H4" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmC2H4" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnCO" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmCO" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnCO2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmCO2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmC2H6" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnCH4" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmCH4" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnRIEEEC3" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnRIEEEC4" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnRIEEEC5" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnRIEEEUN" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnRIECPD" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnRIECT1" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnRIECT2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnRIECD1" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnRIECD2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnRIECD1D2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnRIECNONE" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnH2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnDVD1" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnDVD2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnDVDT" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnDVT1" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnDVT2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnDVT3" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnDVPD" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnRIEEEC2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnRIECT3" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnC2H6" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnRIEEEC0" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnRIEEEC1" type="TEST_01TR.AGGGIO1.Wrn01" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.GASH2LGGIO1" lnClass="GGIO">
+			<DO name="Wrn05" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Ind01" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Ind02" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn12" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn13" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn14" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn22" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn23" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn24" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn33" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn41" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn42" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn43" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn49" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Ind03" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Ind04" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Ind05" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn53" type="TEST_01TR.AGGGIO1.Wrn01" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.GASMSGGIO1" lnClass="GGIO">
+			<DO name="Wrn01" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn02" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn03" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn04" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn05" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn06" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn07" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn08" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn09" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn10" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn11" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn12" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn18" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn19" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn20" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn21" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn22" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn23" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn24" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn25" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn26" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn27" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn28" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn29" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn30" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn32" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn33" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn34" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn35" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn36" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn37" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn38" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn39" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn40" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn41" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn42" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn43" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn14" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn15" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn17" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn13" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn16" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn31" type="TEST_01TR.AGGGIO1.Wrn01" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.GASMTGGIO1" lnClass="GGIO">
+			<DO name="WrnH2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmH2" type="TEST_01TR.AGGGIO1.Wrn01" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.GASWTGGIO1" lnClass="GGIO">
+			<DO name="WrnH2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmH2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnC2H2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmC2H2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnC2H4" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmC2H4" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnCO" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmCO" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnCO2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmCO2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnC2H6" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmC2H6" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="AlmCH4" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="WrnCH4" type="TEST_01TR.AGGGIO1.Wrn01" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.GGIO1" lnClass="GGIO">
+			<DO name="AI_A5_3" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="AI_A5_4" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="SpareAI_50" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="SpareAI_52" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="SpareAI_54" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="SpareAI_56" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="SpareAI_58" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="SpareAI_60" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="SpareAI_62" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="SpareAI_64" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="SpareAI_68" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="SpareAI_70" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="SpareAI_72" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="SpareAI_66" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.LOADGGIO1" lnClass="GGIO">
+			<DO name="Wrn01" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm01" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn02" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm02" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Wrn03" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm03" type="TEST_01TR.AGGGIO1.Wrn01" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.OFGGIO1" lnClass="GGIO">
+			<DO name="Alm01" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm02" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm03" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm04" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm05" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm06" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm08" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm14" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm15" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm16" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm17" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm18" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm07" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm10" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm11" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm12" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm13" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm09" type="TEST_01TR.AGGGIO1.Wrn01" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU2H1GGIO1" lnClass="GGIO">
+			<DO name="Alm01" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm02" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm03" type="TEST_01TR.AGGGIO1.Wrn01" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU2H2GGIO1" lnClass="GGIO">
+			<DO name="Alm02" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm03" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm01" type="TEST_01TR.AGGGIO1.Wrn01" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU2HGGIO1" lnClass="GGIO">
+			<DO name="Alm01" type="TEST_01TR.AGGGIO1.Wrn01" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU2X1GGIO1" lnClass="GGIO">
+			<DO name="Alm03" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm01" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm02" type="TEST_01TR.AGGGIO1.Wrn01" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU2XGGIO1" lnClass="GGIO">
+			<DO name="Alm01" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm02" type="TEST_01TR.AGGGIO1.Wrn01" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.TAPGGIO1" lnClass="GGIO">
+			<DO name="Wrn01" type="TEST_01TR.AGGGIO1.Wrn01" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.WBGGIO1" lnClass="GGIO">
+			<DO name="Alm01" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm03" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm04" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm05" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm06" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm07" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm14" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm15" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm16" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm17" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm18" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm08" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm09" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm11" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm12" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm13" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm02" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="Alm10" type="TEST_01TR.AGGGIO1.Wrn01" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.LLN0" lnClass="LLN0">
+			<DO name="NamPlt" type="TEST_01TR.LLN0.NamPlt" />
+			<DO name="Beh" type="TEST_01TR.LLN0.Beh" />
+			<DO name="Health" type="TEST_01TR.LLN0.Health" />
+			<DO name="Mod" type="TEST_01TR.LLN0.Mod" />
+			<DO name="LocKey" type="TEST_01TR.LLN0.LocKey" />
+			<DO name="Loc" type="TEST_01TR.LLN0.LocKey" />
+			<DO name="LocSta" type="TEST_01TR.LLN0.LocSta" />
+			<DO name="Diag" type="TEST_01TR.LLN0.LocSta" />
+			<DO name="LEDRs" type="TEST_01TR.LLN0.LocSta" />
+			<DO name="MltLev" type="TEST_01TR.LLN0.MltLev" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.GASDTSIML1" lnClass="SIML">
+			<DO name="H2ppm" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="C2H2ppm" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="C2H4ppm" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="COppm" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="CO2ppm" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="C2H6ppm" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="CH4ppm" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="O2ppm" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="N2ppm" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.GASMTSIML1" lnClass="SIML">
+			<DO name="H2ppm" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.GASSIML1" lnClass="SIML">
+			<DO name="H2ppm" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="C2H4ppm" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="Coppm" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="CO2ppm" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="C2H6ppm" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="CH4ppm" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="O2ppm" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="N2ppm" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="Tmp" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="H2OTmp" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="H2Oppm" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="H2O" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="TDCGppm" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="C2H2ppm" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="PCB_Temp" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="Oil_Temp" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.MO1SIML1" lnClass="SIML">
+			<DO name="MstAlm1" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="MstWrn1" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="MstAlm2" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="MstWrn2" type="TEST_01TR.AGGGIO1.Wrn01" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.MOSIML1" lnClass="SIML">
+			<DO name="H2OTmp" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="H2O" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.ROGERSIML1" lnClass="SIML">
+			<DO name="C2H2C2H4RR" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="CH4H2RR" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="C2H4C2H6RR" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SIML1" lnClass="SIML">
+			<DO name="InsLevMin" type="TEST_01TR.AGGGIO1.Wrn01" />
+			<DO name="InsLevMax" type="TEST_01TR.AGGGIO1.Wrn01" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.EXHVSPTR1" lnClass="SPTR">
+			<DO name="HPTmpClc" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SPTR1" lnClass="SPTR">
+			<DO name="TopTmp" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LossLife" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LossLifeHour" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="AgeRte" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.HVTCTR1" lnClass="TCTR">
+			<DO name="AmpSv" type="TEST_01TR.HVTCTR1.AmpSv" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU1H1ZBSH1" lnClass="ZBSH">
+			<DO name="LeakAHourly" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="VolHourly" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LeakA" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="Vol" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LosFact" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LosFactHourly" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="ReactHourly" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="React" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU1H2ZBSH1" lnClass="ZBSH">
+			<DO name="LeakAHourly" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="VolHourly" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LeakA" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="Vol" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LosFact" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="React" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LosFactHourly" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="ReactHourly" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU1H4ZBSH1" lnClass="ZBSH">
+			<DO name="DevSta" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="ChaSta" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU1HZBSH1" lnClass="ZBSH">
+			<DO name="PhAVAngleAB" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="PhAVAngleBC" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="PhAVAngleCA" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="PhAngleAB" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="PhAngleCA" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="UnBaAmp" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="UnBaPh" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="PhAngleBC" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU1X1ZBSH1" lnClass="ZBSH">
+			<DO name="LeakAHourly" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="VolHourly" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LosFact" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="React" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LosFactHourly" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="ReactHourly" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LeakA" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="Vol" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU1X2ZBSH1" lnClass="ZBSH">
+			<DO name="LeakAHourly" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="VolHourly" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="Vol" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LosFact" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="React" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="ReactHourly" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LeakA" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LosFactHourly" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU1X3ZBSH1" lnClass="ZBSH">
+			<DO name="LeakAHourly" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="VolHourly" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="Vol" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LosFact" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="React" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LosFactHourly" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="ReactHourly" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LeakA" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU1XZBSH1" lnClass="ZBSH">
+			<DO name="PhAVAngleAB" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="PhAVAngleBC" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="PhAVAngleCA" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="PhAngleAB" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="PhAngleBC" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="UnBaAmp" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="UnBaPh" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="PhAngleCA" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU2H1ZBSH1" lnClass="ZBSH">
+			<DO name="React" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LosFact" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="Vol" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LeakA" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="AbsReact" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU2H3ZBSH1" lnClass="ZBSH">
+			<DO name="React" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LosFact" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="Vol" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="AbsReact" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LeakA" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU2HZBSH1" lnClass="ZBSH">
+			<DO name="ImbCurr" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="PhImbCurr" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="AngleH1H2" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="AngleH2H3" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU2X1ZBSH1" lnClass="ZBSH">
+			<DO name="LosFact" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="Vol" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LeakA" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="AbsReact" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="React" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU2X3ZBSH1" lnClass="ZBSH">
+			<DO name="React" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="LosFact" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="Vol" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU2XZBSH1" lnClass="ZBSH">
+			<DO name="ImbCurr" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="PhImbCurr" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="AngleX1X2" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="AngleX2X3" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<LNodeType id="TEST_01TR.SEBU2ZBSH1" lnClass="ZBSH">
+			<DO name="RollCoun" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="GIC" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="THDodd" type="TEST_01TR.ATCC1.OpCnt" />
+			<DO name="THDEven" type="TEST_01TR.ATCC1.OpCnt" />
+		</LNodeType>
+		<DOType id="TEST_01TR.LLN0.Mod" cdc="ENC">
+			<DA name="origin" fc="ST" bType="Struct" type="TEST_01TR.LLN0.Mod.origin" />
+			<DA name="stVal" fc="ST" bType="Enum" type="Mod" />
+			<DA name="q" fc="ST" bType="Quality" />
+			<DA name="t" fc="ST" bType="Timestamp" />
+			<DA name="Oper" fc="CO" bType="Struct" type="TEST_01TR.LLN0.Mod.Oper" />
+			<DA name="ctlModel" fc="CF" bType="Enum" type="CtlModelKind" />
+			<DA name="d" fc="DC" bType="VisString255" />
+			<DA name="dU" fc="DC" bType="Unicode255" />
+		</DOType>
+		<DOType id="TEST_01TR.LLN0.Beh" cdc="ENS">
+			<DA name="stVal" fc="ST" bType="Enum" type="Beh" />
+			<DA name="q" fc="ST" bType="Quality" />
+			<DA name="t" fc="ST" bType="Timestamp" />
+			<DA name="d" fc="DC" bType="VisString255" />
+			<DA name="dU" fc="DC" bType="Unicode255" />
+		</DOType>
+		<DOType id="TEST_01TR.LLN0.Health" cdc="ENS">
+			<DA name="stVal" fc="ST" bType="Enum" type="Health" />
+			<DA name="q" fc="ST" bType="Quality" />
+			<DA name="t" fc="ST" bType="Timestamp" />
+			<DA name="d" fc="DC" bType="VisString255" />
+			<DA name="dU" fc="DC" bType="Unicode255" />
+		</DOType>
+		<DOType id="TEST_01TR.CCGR1.OpTmh1" cdc="INS">
+			<DA name="mag" fc="MX" bType="Struct" type="TEST_01TR.ATCC1.OpCnt.mag" />
+			<DA name="q" fc="MX" bType="Quality" />
+			<DA name="t" fc="MX" bType="Timestamp" />
+		</DOType>
+		<DOType id="TEST_01TR.ATCC1.TapPos" cdc="ISC">
+			<DA name="mag" fc="MX" bType="Struct" type="TEST_01TR.ATCC1.OpCnt.mag" />
+			<DA name="q" fc="MX" bType="Quality" />
+			<DA name="t" fc="MX" bType="Timestamp" />
+		</DOType>
+		<DOType id="TEST_01TR.LLN0.NamPlt" cdc="LPL">
+			<DA name="paramRev" fc="ST" bType="INT32" />
+			<DA name="valRev" fc="ST" bType="INT32" />
+			<DA name="vendor" fc="DC" bType="VisString255" />
+			<DA name="swRev" fc="DC" bType="VisString255" />
+			<DA name="d" fc="DC" bType="VisString255" />
+			<DA name="dU" fc="DC" bType="Unicode255" />
+			<DA name="configRev" fc="DC" bType="VisString255" />
+			<DA name="ldNs" fc="EX" bType="VisString255" />
+		</DOType>
+		<DOType id="TEST_01TR.ATCC1.OpCnt" cdc="MV">
+			<DA name="mag" fc="MX" bType="Struct" type="TEST_01TR.ATCC1.OpCnt.mag" />
+			<DA name="q" fc="MX" bType="Quality" />
+			<DA name="t" fc="MX" bType="Timestamp" />
+		</DOType>
+		<DOType id="TEST_01TR.HVTCTR1.AmpSv" cdc="SAV">
+			<DA name="mag" fc="MX" bType="Struct" type="TEST_01TR.ATCC1.OpCnt.mag" />
+			<DA name="q" fc="MX" bType="Quality" />
+			<DA name="t" fc="MX" bType="Timestamp" />
+		</DOType>
+		<DOType id="TEST_01TR.LLN0.LocSta" cdc="SPC">
+			<DA name="origin" fc="ST" bType="Struct" type="TEST_01TR.LLN0.Mod.origin" />
+			<DA name="stVal" fc="ST" bType="BOOLEAN" />
+			<DA name="q" fc="ST" bType="Quality" />
+			<DA name="t" fc="ST" bType="Timestamp" />
+			<DA name="Oper" fc="CO" bType="Struct" type="TEST_01TR.LLN0.LocSta.Oper" />
+			<DA name="ctlModel" fc="CF" bType="Enum" type="CtlModelKind" />
+			<DA name="d" fc="DC" bType="VisString255" />
+			<DA name="dU" fc="DC" bType="Unicode255" />
+		</DOType>
+		<DOType id="TEST_01TR.LLN0.MltLev" cdc="SPG">
+			<DA name="d" fc="DC" bType="VisString255" />
+			<DA name="dU" fc="DC" bType="Unicode255" />
+			<DA name="setVal" fc="SP" bType="BOOLEAN" />
+		</DOType>
+		<DOType id="TEST_01TR.LLN0.LocKey" cdc="SPS">
+			<DA name="stVal" fc="ST" bType="BOOLEAN" />
+			<DA name="q" fc="ST" bType="Quality" />
+			<DA name="t" fc="ST" bType="Timestamp" />
+			<DA name="d" fc="DC" bType="VisString255" />
+			<DA name="dU" fc="DC" bType="Unicode255" />
+		</DOType>
+		<DOType id="TEST_01TR.AGGGIO1.Wrn01" cdc="SPS">
+			<DA name="stVal" fc="ST" bType="BOOLEAN" />
+			<DA name="q" fc="ST" bType="Quality" />
+			<DA name="t" fc="ST" bType="Timestamp" />
+		</DOType>
+		<DOType id="TEST_01TR.SEBU1CALH1.GrWrn02" cdc="SPS">
+			<DA name="mag" fc="MX" bType="Struct" type="TEST_01TR.ATCC1.OpCnt.mag" />
+			<DA name="q" fc="MX" bType="Quality" />
+			<DA name="t" fc="MX" bType="Timestamp" />
+		</DOType>
+		<DAType id="TEST_01TR.LLN0.Mod.origin">
+			<BDA name="orCat" bType="Enum" type="OriginatorCategoryKind" />
+			<BDA name="orIdent" bType="Octet64" />
+		</DAType>
+		<DAType id="TEST_01TR.LLN0.Mod.Oper.origin">
+			<BDA name="orCat" bType="Enum" type="OriginatorCategoryKind" />
+			<BDA name="orIdent" bType="Octet64" />
+		</DAType>
+		<DAType id="TEST_01TR.ATCC1.OpCnt.mag">
+			<BDA name="f" bType="FLOAT32" />
+		</DAType>
+		<DAType id="TEST_01TR.LLN0.Mod.Oper">
+			<BDA name="ctlVal" bType="Enum" type="Mod" />
+			<BDA name="origin" bType="Struct" type="TEST_01TR.LLN0.Mod.Oper.origin" />
+			<BDA name="ctlNum" bType="INT8U" />
+			<BDA name="T" bType="Timestamp" />
+			<BDA name="Test" bType="BOOLEAN" />
+			<BDA name="Check" bType="Check" />
+		</DAType>
+		<DAType id="TEST_01TR.LLN0.LocSta.Oper">
+			<BDA name="ctlVal" bType="BOOLEAN" />
+			<BDA name="origin" bType="Struct" type="TEST_01TR.LLN0.Mod.Oper.origin" />
+			<BDA name="ctlNum" bType="INT8U" />
+			<BDA name="T" bType="Timestamp" />
+			<BDA name="Test" bType="BOOLEAN" />
+			<BDA name="Check" bType="Check" />
+		</DAType>
+		<EnumType id="CtlModelKind">
+			<!--Source: IEC 61850-7-3:2007A-->
+			<EnumVal ord="0">status-only</EnumVal>
+			<EnumVal ord="1">direct-with-normal-security</EnumVal>
+			<EnumVal ord="2">sbo-with-normal-security</EnumVal>
+			<EnumVal ord="3">direct-with-enhanced-security</EnumVal>
+			<EnumVal ord="4">sbo-with-enhanced-security</EnumVal>
+		</EnumType>
+		<EnumType id="OriginatorCategoryKind">
+			<!--Source: IEC 61850-7-3:2007A-->
+			<EnumVal ord="0">not-supported</EnumVal>
+			<EnumVal ord="1">bay-control</EnumVal>
+			<EnumVal ord="2">station-control</EnumVal>
+			<EnumVal ord="3">remote-control</EnumVal>
+			<EnumVal ord="4">automatic-bay</EnumVal>
+			<EnumVal ord="5">automatic-station</EnumVal>
+			<EnumVal ord="6">automatic-remote</EnumVal>
+			<EnumVal ord="7">maintenance</EnumVal>
+			<EnumVal ord="8">process</EnumVal>
+		</EnumType>
+		<EnumType id="Beh">
+			<!--Source: IEC 61850-7-4:2007A-->
+			<EnumVal ord="1">on</EnumVal>
+			<EnumVal ord="2">on-blocked</EnumVal>
+			<EnumVal ord="3">test</EnumVal>
+			<EnumVal ord="4">test/blocked</EnumVal>
+			<EnumVal ord="5">off</EnumVal>
+		</EnumType>
+		<EnumType id="Health">
+			<!--Source: IEC 61850-7-4:2007A-->
+			<EnumVal ord="1">Ok</EnumVal>
+			<EnumVal ord="2">Warning</EnumVal>
+			<EnumVal ord="3">Alarm</EnumVal>
+		</EnumType>
+		<EnumType id="Mod">
+			<!--Source: IEC 61850-7-4:2007A-->
+			<EnumVal ord="1">on</EnumVal>
+			<EnumVal ord="2">on-blocked</EnumVal>
+			<EnumVal ord="3">test</EnumVal>
+			<EnumVal ord="4">test/blocked</EnumVal>
+			<EnumVal ord="5">off</EnumVal>
+		</EnumType>
+	</DataTypeTemplates>
+</SCL>
