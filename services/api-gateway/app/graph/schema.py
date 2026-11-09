@@ -45,6 +45,7 @@ E_REFERENCES = "REFERENCES"
 E_PUBLISHES = "PUBLISHES"
 E_SUBSCRIBES_TO = "SUBSCRIBES_TO"
 E_ON = "ON"
+E_CONNECTED_VIA = "CONNECTED_VIA"
 
 
 # every node also gets this label, so edge-endpoint MERGEs (which don't

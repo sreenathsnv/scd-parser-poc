@@ -3,6 +3,7 @@ import { api } from "./api";
 import TreeView from "./components/TreeView";
 import NodeDetails from "./components/NodeDetails";
 import ValidationPanel from "./components/ValidationPanel";
+import GraphView from "./components/GraphView";
 
 export default function App() {
   const [files, setFiles] = useState([]);
@@ -10,6 +11,8 @@ export default function App() {
   const [tree, setTree] = useState(null);
   const [selectedNode, setSelectedNode] = useState(null);
   const [report, setReport] = useState(null);
+  const [graphElements, setGraphElements] = useState(null);
+  const [graphLoading, setGraphLoading] = useState(false);
   const [tab, setTab] = useState("tree");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -23,6 +26,7 @@ export default function App() {
     setLoading(true);
     setSelectedFile(name);
     setSelectedNode(null);
+    setGraphElements(null);
     try {
       await api.parseFile(name);
       const [t, v] = await Promise.all([api.getTree(name), api.validate(name)]);
@@ -32,6 +36,22 @@ export default function App() {
       setError(e.message);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function openGraphTab() {
+    setTab("graph");
+    if (graphElements || !selectedFile) return;
+    setGraphLoading(true);
+    setError(null);
+    try {
+      await api.graphLoad(selectedFile);
+      const g = await api.getGraphView(selectedFile);
+      setGraphElements(g);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setGraphLoading(false);
     }
   }
 
@@ -71,10 +91,13 @@ export default function App() {
           <button onClick={() => setTab("tree")} disabled={tab === "tree"}>
             Tree
           </button>
+          <button onClick={openGraphTab} disabled={tab === "graph"}>
+            Graph
+          </button>
           <button onClick={() => setTab("validation")} disabled={tab === "validation"}>
             Validation {report ? `(${report.error_count}E / ${report.warning_count}W)` : ""}
           </button>
-          {loading && <span>Loading...</span>}
+          {(loading || graphLoading) && <span>Loading...</span>}
           {error && <span style={{ color: "crimson" }}>{error}</span>}
         </div>
 
@@ -87,6 +110,22 @@ export default function App() {
             <div style={{ flex: 1, minWidth: 0 }}>
               <TreeView data={treeData} onSelect={setSelectedNode} width="100%" height={window.innerHeight - 50} />
             </div>
+            <div style={{ width: 320, borderLeft: "1px solid #ddd", padding: 12, overflowY: "auto" }}>
+              <NodeDetails node={selectedNode} />
+            </div>
+          </div>
+        )}
+
+        {selectedFile && tab === "graph" && (
+          <div style={{ flex: 1, display: "flex", minHeight: 0 }}>
+            {graphElements ? (
+              <GraphView
+                elements={graphElements}
+                onSelect={(d) => setSelectedNode({ label: d.label, kind: d.kind, attrs: { id: d.id } })}
+              />
+            ) : (
+              <p style={{ flex: 1, padding: 16, color: "#888" }}>{graphLoading ? "Loading graph..." : "No graph data."}</p>
+            )}
             <div style={{ width: 320, borderLeft: "1px solid #ddd", padding: 12, overflowY: "auto" }}>
               <NodeDetails node={selectedNode} />
             </div>

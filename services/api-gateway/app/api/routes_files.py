@@ -12,7 +12,7 @@ def _resolve_path(filename: str) -> str:
     path = config.FILES_DIR / filename
     if ".." in filename or path.is_absolute() and not str(path).startswith(str(config.FILES_DIR)):
         raise HTTPException(status_code=400, detail="invalid filename")
-    return str(path)
+    return config.resolve_path(filename)
 
 
 @router.get("")
