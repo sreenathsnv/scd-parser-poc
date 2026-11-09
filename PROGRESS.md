@@ -57,10 +57,36 @@ Update this file at the end of each phase/step.
   reflected in the React details panel (not just "a graph renders"), on the ~39k-node
   DTech26 file.
 
+### Phase 1 — Explorer, increment 3 (branch: `feature/phase-1-explorer`)
+- Backend: `app/scl/editor.py` mutates a DAI value in both the lxml tree (for the
+  serializer) and the typed model (for live re-validation/re-projection) and marks the
+  document dirty; `POST /files/{name}/edit/dai` exposes it.
+- Frontend: inline edit box + Save button for `DataAttribute` tree nodes; after saving,
+  the tree and validation report both re-fetch live (a bad edit becomes visible as a new
+  validation finding before the user saves to disk, per the plan).
+- Frontend: a custom `SaveAsCopyDialog` / `OverwriteConfirmDialog` (not native
+  `window.prompt`/`confirm`, which turned out to be silently auto-dismissed in this
+  session's automated browser harness and are poor UX generally) naming the exact file
+  path and the overwrite's irreversibility; the overwrite button stays disabled with no
+  pending edits.
+- One correctness bug found before it could ship: `doc.dirty` was being used for two
+  different things (the serializer's permanent "lxml tree has diverged from raw_bytes"
+  flag, and the UI's "unsaved changes" indicator). Resetting it after save-overwrite (to
+  clear the UI indicator) would have made the serializer's `if not dirty: return
+  raw_bytes` fast path silently serve stale pre-edit bytes on a later save-as-copy. Split
+  into two fields -- `dirty` (permanent) and `unsaved` (UI-facing, reset on overwrite only)
+  -- with a regression test (`test_overwrite_then_save_as_copy_keeps_edit`) locking it in.
+- Also fixed in passing: the tree projection never rendered nested `<SDI>` structures at
+  all (only direct `DAI` children of a `DOI`); `_sdi_node` now recurses into them, which
+  the DAI editor's `doiPath` needed to be correct for anyway.
+- Tested live: edited `IEC61850.icd`'s `NamPlt/vendor` from "Siemens" to "TriviumTest"
+  through the UI, saved as copy, confirmed the new file on disk has the edit and the
+  original is byte-identical to before (`git status` clean on `Resources/`).
+- Not yet done in Phase 1: DataTypeTemplates browser with "used by" back-links.
+
 ## Left to do
 
-- **Phase 1 — Explorer** (remaining): DataTypeTemplates browser, inline editing,
-  save-as-copy/save-overwrite UI with confirmation dialog.
+- **Phase 1 — Explorer** (remaining): DataTypeTemplates browser with "used by" back-links.
 - **Phase 2 — Agent mode** (chat panel, fixed Cypher-template tool library,
   citation-grounded answers, LiteLLM-backed provider switching, verified across
   Anthropic/OpenAI/Gemini/Ollama).

@@ -17,6 +17,12 @@ export const api = {
   getGraphView: (name) => req(`/files/${encodeURIComponent(name)}/graph-view`),
   graphLoad: (name) => req(`/files/${encodeURIComponent(name)}/graph-load`, { method: "POST" }),
   validate: (name) => req(`/files/${encodeURIComponent(name)}/validate`),
+  editDai: (name, body) =>
+    req(`/files/${encodeURIComponent(name)}/edit/dai`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    }),
   saveAsCopy: (name, newName) =>
     req(`/files/${encodeURIComponent(name)}/save-as-copy?new_filename=${encodeURIComponent(newName)}`, { method: "POST" }),
   saveOverwrite: (name) =>

@@ -7,6 +7,7 @@ from . import model as m
 def to_summary(doc: m.SclDocument) -> dict:
     return {
         "sourcePath": doc.source_path,
+        "dirty": doc.unsaved,
         "sclVersion": doc.scl_version,
         "sclRevision": doc.scl_revision,
         "header": (
@@ -100,23 +101,23 @@ def _conducting_equipment_node(bay_id: str, ce: m.ConductingEquipment) -> dict:
 
 def _ied_node(ied: m.IED, dtt: m.DataTypeTemplates) -> dict:
     id_ = f"ied::{ied.name}"
-    children = [_access_point_node(id_, ap, dtt) for ap in ied.access_points]
+    children = [_access_point_node(id_, ap, dtt, ied.name) for ap in ied.access_points]
     return _node(id_, ied.name, "IED", {"manufacturer": ied.manufacturer, "type": ied.type}, children)
 
 
-def _access_point_node(ied_id: str, ap: m.AccessPoint, dtt: m.DataTypeTemplates) -> dict:
+def _access_point_node(ied_id: str, ap: m.AccessPoint, dtt: m.DataTypeTemplates, ied_name: str) -> dict:
     id_ = f"{ied_id}::ap::{ap.name}"
     children = []
     if ap.server:
         server_id = f"{id_}::server"
-        ld_children = [_ldevice_node(server_id, ld, dtt) for ld in ap.server.ldevices]
+        ld_children = [_ldevice_node(server_id, ld, dtt, ied_name) for ld in ap.server.ldevices]
         children = [_node(server_id, "Server", "Server", {}, ld_children)]
     return _node(id_, ap.name, "AccessPoint", {}, children)
 
 
-def _ldevice_node(server_id: str, ld: m.LDevice, dtt: m.DataTypeTemplates) -> dict:
+def _ldevice_node(server_id: str, ld: m.LDevice, dtt: m.DataTypeTemplates, ied_name: str) -> dict:
     id_ = f"{server_id}::ld::{ld.inst}"
-    children = [_ln_node(id_, ln, dtt) for ln in ld.all_lns]
+    children = [_ln_node(id_, ln, dtt, ied_name, ld.inst) for ln in ld.all_lns]
     return _node(id_, ld.inst, "LDevice", {"desc": ld.desc}, children)
 
 
@@ -134,10 +135,14 @@ def _da_type_map(dtt: m.DataTypeTemplates, do_type_id: str | None) -> dict[str, 
     return {da.name: da for da in dot.attributes}
 
 
-def _ln_node(ld_id: str, ln: m.LogicalNode, dtt: m.DataTypeTemplates) -> dict:
+def _ln_node(ld_id: str, ln: m.LogicalNode, dtt: m.DataTypeTemplates, ied_name: str, ld_inst: str) -> dict:
     id_ = f"{ld_id}::ln::{ln.prefix or ''}{ln.ln_class}{ln.inst}"
     do_map = _do_type_map(dtt, ln.ln_type)
-    children = [_doi_node(id_, doi, do_map, dtt) for doi in ln.doi]
+    edit_ctx = {
+        "iedName": ied_name, "ldInst": ld_inst,
+        "lnPrefix": ln.prefix or "", "lnClass": ln.ln_class, "lnInst": ln.inst,
+    }
+    children = [_doi_node(id_, doi, do_map, dtt, edit_ctx, []) for doi in ln.doi]
     attrs = {
         "lnClass": ln.ln_class, "inst": ln.inst, "prefix": ln.prefix, "lnType": ln.ln_type,
         "lnTypeResolved": ln.ln_type in dtt.lnode_types if ln.ln_type else None,
@@ -147,17 +152,27 @@ def _ln_node(ld_id: str, ln: m.LogicalNode, dtt: m.DataTypeTemplates) -> dict:
     return _node(id_, ln.ln_name, "LogicalNode", attrs, children)
 
 
-def _doi_node(ln_id: str, doi: m.DOI, do_map: dict, dtt: m.DataTypeTemplates) -> dict:
+def _doi_node(ln_id: str, doi: m.DOI, do_map: dict, dtt: m.DataTypeTemplates, edit_ctx: dict, doi_path: list[str]) -> dict:
     id_ = f"{ln_id}::doi::{doi.name}"
+    path = doi_path + [doi.name]
     do_tmpl = do_map.get(doi.name)
     do_type = dtt.do_types.get(do_tmpl.type_ref) if do_tmpl else None
     da_map = _da_type_map(dtt, do_tmpl.type_ref) if do_tmpl else {}
-    children = [_dai_node(id_, dai, da_map) for dai in doi.dai_children]
+    children = [_dai_node(id_, dai, da_map, edit_ctx, path) for dai in doi.dai_children]
+    children += [_sdi_node(id_, sdi, dtt, edit_ctx, path) for sdi in doi.sdi_children]
     attrs = {"desc": doi.desc, "cdc": do_type.cdc if do_type else None, "resolved": do_tmpl is not None}
     return _node(id_, doi.name, "DataObject", attrs, children)
 
 
-def _dai_node(doi_id: str, dai: m.DAI, da_map: dict) -> dict:
+def _sdi_node(parent_id: str, sdi: m.SDI, dtt: m.DataTypeTemplates, edit_ctx: dict, doi_path: list[str]) -> dict:
+    id_ = f"{parent_id}::sdi::{sdi.name}"
+    path = doi_path + [sdi.name]
+    children = [_dai_node(id_, dai, {}, edit_ctx, path) for dai in sdi.dai_children]
+    children += [_sdi_node(id_, child, dtt, edit_ctx, path) for child in sdi.sdi_children]
+    return _node(id_, sdi.name, "DataObject", {"ix": sdi.ix}, children)
+
+
+def _dai_node(doi_id: str, dai: m.DAI, da_map: dict, edit_ctx: dict, doi_path: list[str]) -> dict:
     id_ = f"{doi_id}::dai::{dai.name}"
     da_tmpl = da_map.get(dai.name)
     attrs = {
@@ -166,5 +181,9 @@ def _dai_node(doi_id: str, dai: m.DAI, da_map: dict) -> dict:
         "fc": da_tmpl.fc if da_tmpl else None,
         "bType": da_tmpl.b_type if da_tmpl else None,
         "resolved": da_tmpl is not None,
+        "editable": True,
+        **edit_ctx,
+        "doiPath": doi_path,
+        "daiName": dai.name,
     }
     return _node(id_, dai.name, "DataAttribute", attrs, [])

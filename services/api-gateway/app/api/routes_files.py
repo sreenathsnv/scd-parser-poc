@@ -1,11 +1,23 @@
 from __future__ import annotations
 
 from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
 
 from .. import config, store
-from ..scl import parser, projection, serializer
+from ..scl import editor, parser, projection, serializer
 
 router = APIRouter(prefix="/files", tags=["files"])
+
+
+class EditDaiRequest(BaseModel):
+    iedName: str
+    ldInst: str
+    lnPrefix: str = ""
+    lnClass: str
+    lnInst: str = ""
+    doiPath: list[str]
+    daiName: str
+    value: str
 
 
 def _resolve_path(filename: str) -> str:
@@ -55,6 +67,21 @@ def get_tree(filename: str) -> dict:
     return projection.to_tree(doc)
 
 
+@router.post("/{filename}/edit/dai")
+def edit_dai(filename: str, body: EditDaiRequest) -> dict:
+    doc = store.get(filename)
+    if doc is None:
+        raise HTTPException(status_code=404, detail=f"{filename} has not been parsed yet")
+    try:
+        editor.set_dai_value(
+            doc, body.iedName, body.ldInst, body.lnPrefix, body.lnClass, body.lnInst,
+            body.doiPath, body.daiName, body.value,
+        )
+    except editor.EditError as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
+    return {"dirty": doc.unsaved}
+
+
 @router.post("/{filename}/save-as-copy")
 def save_as_copy(filename: str, new_filename: str) -> dict:
     doc = store.get(filename)
@@ -62,7 +89,7 @@ def save_as_copy(filename: str, new_filename: str) -> dict:
         raise HTTPException(status_code=404, detail=f"{filename} has not been parsed yet")
     new_path = _resolve_path(new_filename)
     serializer.write_file(doc, new_path)
-    return {"written": new_filename, "dirty": doc.dirty}
+    return {"written": new_filename, "dirty": doc.unsaved}
 
 
 @router.post("/{filename}/save-overwrite")
@@ -75,4 +102,5 @@ def save_overwrite(filename: str, confirm: bool = False) -> dict:
         raise HTTPException(status_code=404, detail=f"{filename} has not been parsed yet")
     path = _resolve_path(filename)
     serializer.write_file(doc, path)
-    return {"overwritten": filename, "dirty": doc.dirty}
+    doc.unsaved = False
+    return {"overwritten": filename, "dirty": doc.unsaved}

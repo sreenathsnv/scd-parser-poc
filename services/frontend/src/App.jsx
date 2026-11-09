@@ -4,6 +4,7 @@ import TreeView from "./components/TreeView";
 import NodeDetails from "./components/NodeDetails";
 import ValidationPanel from "./components/ValidationPanel";
 import GraphView from "./components/GraphView";
+import { SaveAsCopyDialog, OverwriteConfirmDialog } from "./components/SaveDialog";
 
 export default function App() {
   const [files, setFiles] = useState([]);
@@ -11,24 +12,34 @@ export default function App() {
   const [tree, setTree] = useState(null);
   const [selectedNode, setSelectedNode] = useState(null);
   const [report, setReport] = useState(null);
+  const [dirty, setDirty] = useState(false);
   const [graphElements, setGraphElements] = useState(null);
   const [graphLoading, setGraphLoading] = useState(false);
   const [tab, setTab] = useState("tree");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState(null);
+  const [saveDialog, setSaveDialog] = useState(null); // "copy" | "overwrite" | null
+  const [statusMessage, setStatusMessage] = useState(null);
 
-  useEffect(() => {
+  function refreshFileList() {
     api.listFiles().then((d) => setFiles(d.files)).catch((e) => setError(e.message));
-  }, []);
+  }
+
+  useEffect(refreshFileList, []);
 
   async function openFile(name) {
     setError(null);
+    setSaveError(null);
+    setStatusMessage(null);
     setLoading(true);
     setSelectedFile(name);
     setSelectedNode(null);
     setGraphElements(null);
     try {
-      await api.parseFile(name);
+      const summary = await api.parseFile(name);
+      setDirty(summary.dirty);
       const [t, v] = await Promise.all([api.getTree(name), api.validate(name)]);
       setTree(t);
       setReport(v);
@@ -36,6 +47,58 @@ export default function App() {
       setError(e.message);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function refreshTreeAndValidation() {
+    const [t, v] = await Promise.all([api.getTree(selectedFile), api.validate(selectedFile)]);
+    setTree(t);
+    setReport(v);
+  }
+
+  async function handleSaveDai(node, value) {
+    setSaving(true);
+    setSaveError(null);
+    try {
+      const result = await api.editDai(selectedFile, {
+        iedName: node.attrs.iedName,
+        ldInst: node.attrs.ldInst,
+        lnPrefix: node.attrs.lnPrefix,
+        lnClass: node.attrs.lnClass,
+        lnInst: node.attrs.lnInst,
+        doiPath: node.attrs.doiPath,
+        daiName: node.attrs.daiName,
+        value,
+      });
+      setDirty(result.dirty);
+      await refreshTreeAndValidation();
+      setSelectedNode({ ...node, attrs: { ...node.attrs, val: value } });
+    } catch (e) {
+      setSaveError(e.message);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function confirmSaveAsCopy(newName) {
+    setSaveDialog(null);
+    try {
+      await api.saveAsCopy(selectedFile, newName);
+      refreshFileList();
+      setStatusMessage(`Saved as ${newName}. The original file was not modified.`);
+    } catch (e) {
+      setError(e.message);
+    }
+  }
+
+  async function confirmSaveOverwrite() {
+    setSaveDialog(null);
+    try {
+      const result = await api.saveOverwrite(selectedFile);
+      setDirty(result.dirty);
+      setStatusMessage(`${selectedFile} overwritten.`);
+    } catch (e) {
+      setError(e.message);
     }
   }
 
@@ -87,7 +150,7 @@ export default function App() {
       </div>
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
-        <div style={{ borderBottom: "1px solid #ddd", padding: "8px 16px", display: "flex", gap: 16 }}>
+        <div style={{ borderBottom: "1px solid #ddd", padding: "8px 16px", display: "flex", gap: 16, alignItems: "center" }}>
           <button onClick={() => setTab("tree")} disabled={tab === "tree"}>
             Tree
           </button>
@@ -97,9 +160,36 @@ export default function App() {
           <button onClick={() => setTab("validation")} disabled={tab === "validation"}>
             Validation {report ? `(${report.error_count}E / ${report.warning_count}W)` : ""}
           </button>
+
+          {selectedFile && (
+            <span style={{ marginLeft: "auto", display: "flex", gap: 8, alignItems: "center" }}>
+              {dirty && <span style={{ color: "#d68910", fontSize: 12 }}>unsaved changes</span>}
+              <button onClick={() => setSaveDialog("copy")}>Save as copy</button>
+              <button onClick={() => setSaveDialog("overwrite")} disabled={!dirty}>
+                Save (overwrite)
+              </button>
+            </span>
+          )}
+
           {(loading || graphLoading) && <span>Loading...</span>}
           {error && <span style={{ color: "crimson" }}>{error}</span>}
+          {statusMessage && <span style={{ color: "#2e7d32" }}>{statusMessage}</span>}
         </div>
+
+        {saveDialog === "copy" && (
+          <SaveAsCopyDialog
+            suggestedName={selectedFile.replace(/(\.[a-zA-Z]+)$/, "-edited$1")}
+            onConfirm={confirmSaveAsCopy}
+            onCancel={() => setSaveDialog(null)}
+          />
+        )}
+        {saveDialog === "overwrite" && (
+          <OverwriteConfirmDialog
+            filename={selectedFile}
+            onConfirm={confirmSaveOverwrite}
+            onCancel={() => setSaveDialog(null)}
+          />
+        )}
 
         {!selectedFile && (
           <p style={{ padding: 16, color: "#888" }}>Select a file on the left to open it.</p>
@@ -111,7 +201,7 @@ export default function App() {
               <TreeView data={treeData} onSelect={setSelectedNode} width="100%" height={window.innerHeight - 50} />
             </div>
             <div style={{ width: 320, borderLeft: "1px solid #ddd", padding: 12, overflowY: "auto" }}>
-              <NodeDetails node={selectedNode} />
+              <NodeDetails node={selectedNode} onSaveDai={handleSaveDai} saving={saving} saveError={saveError} />
             </div>
           </div>
         )}
