@@ -21,11 +21,27 @@ Update this file at the end of each phase/step.
 - FastAPI gateway: parse/validate/graph-load/save-as-copy/save-overwrite endpoints.
 - `docker-compose.yml` core profile: all 7 services verified up together.
 - model-generator, frontend: scaffolded as placeholders only (real work is Phase 3 / Phase 1).
+- Re-verified from a clean slate (`docker compose down -v` -> rebuild -> `up`) on 2026-11-09:
+  all 11 pytest tests, all 7 services, all 4 resource files parse/validate/graph-load correctly,
+  all 3 canonical graph queries, zero error-level logs.
+
+### Phase 1 — Explorer, increment 1 (branch: `feature/phase-1-explorer`)
+- Backend: `GET /files/{name}/tree` full nested tree projection (Substation plant topology +
+  IED->AccessPoint->Server->LDevice->LN->DOI->DAI), with resolved type info (lnType/CDC/FC/bType)
+  alongside raw attributes, per plan component 4.
+- Frontend: file picker, tree view (react-arborist) with node-details panel, validation panel —
+  wired to live parse/tree/validate endpoints, no mock data.
+- Tested live in browser against all four `Resources/` fixtures, including the largest
+  (DTech26, ~39k graph nodes / 4.1MB tree JSON) — renders without hanging, correctly shows
+  MAYZAN's duplicate-IP and DTech26's empty-Substation-group/165-warning validation results.
+- Not yet done in Phase 1: graph view (Cytoscape.js), DataTypeTemplates browser with
+  "used by" back-links, inline editing of DOI/DAI values, save-as-copy/save-overwrite UI
+  with confirmation dialog.
 
 ## Left to do
 
-- **Phase 1 — Explorer** (tree view, graph view, validation panel, inline editing,
-  save-as-copy/save-overwrite UI with confirmation dialog).
+- **Phase 1 — Explorer** (remaining): graph view, DataTypeTemplates browser, inline editing,
+  save-as-copy/save-overwrite UI with confirmation dialog.
 - **Phase 2 — Agent mode** (chat panel, fixed Cypher-template tool library,
   citation-grounded answers, LiteLLM-backed provider switching, verified across
   Anthropic/OpenAI/Gemini/Ollama).
@@ -42,3 +58,5 @@ Update this file at the end of each phase/step.
    same README, plus the root `README.md`.
 3. Graph ingestion of a large SCD takes ~10-25s; fine for now, worth profiling
    before Phase 2's agent starts calling it interactively.
+4. Vite's dev-mode HMR websocket doesn't reconnect through the reverse proxy (cosmetic
+   console error only); a source edit in dev still needs a manual browser refresh.

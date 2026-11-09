@@ -47,6 +47,14 @@ def get_summary(filename: str) -> dict:
     return projection.to_summary(doc)
 
 
+@router.get("/{filename}/tree")
+def get_tree(filename: str) -> dict:
+    doc = store.get(filename)
+    if doc is None:
+        raise HTTPException(status_code=404, detail=f"{filename} has not been parsed yet; POST /files/{filename}/parse first")
+    return projection.to_tree(doc)
+
+
 @router.post("/{filename}/save-as-copy")
 def save_as_copy(filename: str, new_filename: str) -> dict:
     doc = store.get(filename)
