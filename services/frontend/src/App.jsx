@@ -22,6 +22,8 @@ export default function App() {
   const [saveError, setSaveError] = useState(null);
   const [saveDialog, setSaveDialog] = useState(null); // "copy" | "overwrite" | null
   const [statusMessage, setStatusMessage] = useState(null);
+  const [importing, setImporting] = useState(false);
+  const fileInputRef = useRef(null);
 
   // Bumped on every openFile call; an in-flight request whose token no
   // longer matches this when it resolves is for a file the user has since
@@ -61,6 +63,24 @@ export default function App() {
       if (requestTokenRef.current === token) setError(e.message);
     } finally {
       if (requestTokenRef.current === token) setLoading(false);
+    }
+  }
+
+  async function handleImportFiles(fileList) {
+    const file = fileList?.[0];
+    if (!file) return;
+    setImporting(true);
+    setError(null);
+    setStatusMessage(null);
+    try {
+      const result = await api.importFile(file);
+      refreshFileList();
+      setStatusMessage(`Imported ${file.name}.`);
+      await openFile(result.filename);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setImporting(false);
     }
   }
 
@@ -143,27 +163,51 @@ export default function App() {
     ];
   }, [tree]);
 
+  const importedFiles = files.filter((f) => f.startsWith("imported/"));
+  const fixtureFiles = files.filter((f) => !f.startsWith("imported/"));
+
+  function fileListItem(f) {
+    return (
+      <li
+        key={f}
+        onClick={() => openFile(f)}
+        style={{
+          padding: "6px 4px",
+          cursor: "pointer",
+          background: f === selectedFile ? "#eef" : "transparent",
+          fontSize: 13,
+          wordBreak: "break-all",
+        }}
+      >
+        {f.startsWith("imported/") ? f.slice("imported/".length) : f}
+      </li>
+    );
+  }
+
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", display: "flex", height: "100vh" }}>
-      <div style={{ width: 220, borderRight: "1px solid #ddd", padding: 12, overflowY: "auto" }}>
+      <div style={{ width: 240, borderRight: "1px solid #ddd", padding: 12, overflowY: "auto" }}>
         <h2 style={{ fontSize: 16 }}>SCL Explorer</h2>
-        <ul style={{ listStyle: "none", padding: 0 }}>
-          {files.map((f) => (
-            <li
-              key={f}
-              onClick={() => openFile(f)}
-              style={{
-                padding: "6px 4px",
-                cursor: "pointer",
-                background: f === selectedFile ? "#eef" : "transparent",
-                fontSize: 13,
-                wordBreak: "break-all",
-              }}
-            >
-              {f}
-            </li>
-          ))}
+
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".scd,.icd,.cid,.ssd,.sed"
+          style={{ display: "none" }}
+          onChange={(e) => handleImportFiles(e.target.files)}
+        />
+        <button onClick={() => fileInputRef.current?.click()} disabled={importing} style={{ width: "100%", marginBottom: 12 }}>
+          {importing ? "Importing..." : "Import file..."}
+        </button>
+
+        <h3 style={{ fontSize: 12, color: "#888", textTransform: "uppercase", margin: "8px 0 4px" }}>Imported</h3>
+        <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+          {importedFiles.length === 0 && <li style={{ fontSize: 12, color: "#aaa", padding: "4px 4px" }}>none yet</li>}
+          {importedFiles.map(fileListItem)}
         </ul>
+
+        <h3 style={{ fontSize: 12, color: "#888", textTransform: "uppercase", margin: "16px 0 4px" }}>Example fixtures</h3>
+        <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>{fixtureFiles.map(fileListItem)}</ul>
       </div>
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>

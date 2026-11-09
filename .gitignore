@@ -12,3 +12,4 @@ services/validation-sidecar/rules/ocl/*
 services/validation-sidecar/rules/nsd/*
 !services/validation-sidecar/rules/nsd/.gitkeep
 .pytest_cache/
+Resources/imported/

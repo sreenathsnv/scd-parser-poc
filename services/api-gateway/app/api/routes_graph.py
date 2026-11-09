@@ -11,7 +11,7 @@ router = APIRouter(tags=["graph"])
 CONTROL_LABELS = ["GSEControl", "SampledValueControl", "ReportControl"]
 
 
-@router.post("/files/{filename}/graph-load")
+@router.post("/files/{filename:path}/graph-load")
 def graph_load(filename: str) -> dict:
     doc = store.get(filename)
     if doc is None:
@@ -19,7 +19,7 @@ def graph_load(filename: str) -> dict:
     return loader.ingest(doc)
 
 
-@router.get("/files/{filename}/graph-view")
+@router.get("/files/{filename:path}/graph-view")
 def graph_view(filename: str) -> dict:
     """Collapsed IED/control-block/dataset/SubNetwork overview graph for one
     file, in Cytoscape.js elements shape. Not the full DO/DA instance tree

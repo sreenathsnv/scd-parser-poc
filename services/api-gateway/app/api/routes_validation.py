@@ -9,7 +9,7 @@ from ..validation import custom_rules
 router = APIRouter(prefix="/files", tags=["validation"])
 
 
-@router.get("/{filename}/validate")
+@router.get("/{filename:path}/validate")
 async def validate_file(filename: str) -> dict:
     doc = store.get(filename)
     if doc is None:

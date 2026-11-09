@@ -100,6 +100,27 @@ are a genuine pre-existing defect in that fixture, not a parsing bug), then re-v
 the fix live by rapid-clicking between files in both directions (small-then-large and
 large-then-small) and confirming the display never showed the wrong file's data.
 
+### Feature: file import (2026-11-09)
+User-requested: files shouldn't just be auto-discovered from a shared directory --
+there should be an explicit import step, and all operations run against the imported
+copy. Added `POST /files/import` (multipart upload): saves the file into its own
+`imported/` subfolder under `SCD_FILES_DIR` (never overwriting an existing import --
+collisions get a `-2`, `-3`, ... suffix), parses it immediately, and returns its summary.
+Frontend: an "Import file..." button (hidden `<input type="file">`) in the sidebar,
+which now shows two sections -- "Imported" and "Example fixtures" -- so the four
+research fixtures are never confused with a user's own files.
+
+This needed every `{filename}` route (`parse`, `tree`, `validate`, `edit/dai`,
+`save-as-copy`, `save-overwrite`, `graph-load`, `graph-view`) changed to
+`{filename:path}`, since an imported file's name (`imported/foo.scd`) contains a `/`
+that FastAPI's default path-parameter converter won't match. Frontend's URL-building
+also had to switch from a blanket `encodeURIComponent` (which turns `/` into `%2F`) to
+per-segment encoding that keeps the `/` literal.
+
+Covered by `tests/test_import_api.py` (upload -> tree/validate work end-to-end,
+unsupported extension rejected, name collision disambiguated) using FastAPI's
+TestClient against a tmp_path-isolated `FILES_DIR`.
+
 ## Left to do
 
 - **Phase 1 — Explorer** (remaining): DataTypeTemplates browser with "used by" back-links.
