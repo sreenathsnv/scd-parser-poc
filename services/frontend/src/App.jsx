@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { api } from "./api";
 import TreeView from "./components/TreeView";
 import NodeDetails from "./components/NodeDetails";
@@ -23,6 +23,15 @@ export default function App() {
   const [saveDialog, setSaveDialog] = useState(null); // "copy" | "overwrite" | null
   const [statusMessage, setStatusMessage] = useState(null);
 
+  // Bumped on every openFile call; an in-flight request whose token no
+  // longer matches this when it resolves is for a file the user has since
+  // navigated away from, and its result must be discarded -- otherwise a
+  // slow response for an older selection can land after a faster one for
+  // the current selection and silently overwrite it with the wrong file's
+  // data (confirmed: this is what caused IEC61850's "TEST_01" to show up
+  // while MAYZAN was selected).
+  const requestTokenRef = useRef(0);
+
   function refreshFileList() {
     api.listFiles().then((d) => setFiles(d.files)).catch((e) => setError(e.message));
   }
@@ -30,6 +39,7 @@ export default function App() {
   useEffect(refreshFileList, []);
 
   async function openFile(name) {
+    const token = ++requestTokenRef.current;
     setError(null);
     setSaveError(null);
     setStatusMessage(null);
@@ -37,16 +47,20 @@ export default function App() {
     setSelectedFile(name);
     setSelectedNode(null);
     setGraphElements(null);
+    setTree(null);
+    setReport(null);
     try {
       const summary = await api.parseFile(name);
+      if (requestTokenRef.current !== token) return;
       setDirty(summary.dirty);
       const [t, v] = await Promise.all([api.getTree(name), api.validate(name)]);
+      if (requestTokenRef.current !== token) return;
       setTree(t);
       setReport(v);
     } catch (e) {
-      setError(e.message);
+      if (requestTokenRef.current === token) setError(e.message);
     } finally {
-      setLoading(false);
+      if (requestTokenRef.current === token) setLoading(false);
     }
   }
 
@@ -105,16 +119,19 @@ export default function App() {
   async function openGraphTab() {
     setTab("graph");
     if (graphElements || !selectedFile) return;
+    const token = requestTokenRef.current;
+    const fileAtRequestTime = selectedFile;
     setGraphLoading(true);
     setError(null);
     try {
-      await api.graphLoad(selectedFile);
-      const g = await api.getGraphView(selectedFile);
+      await api.graphLoad(fileAtRequestTime);
+      const g = await api.getGraphView(fileAtRequestTime);
+      if (requestTokenRef.current !== token) return; // user switched files meanwhile
       setGraphElements(g);
     } catch (e) {
-      setError(e.message);
+      if (requestTokenRef.current === token) setError(e.message);
     } finally {
-      setGraphLoading(false);
+      if (requestTokenRef.current === token) setGraphLoading(false);
     }
   }
 
@@ -195,7 +212,11 @@ export default function App() {
           <p style={{ padding: 16, color: "#888" }}>Select a file on the left to open it.</p>
         )}
 
-        {selectedFile && tab === "tree" && (
+        {selectedFile && tab === "tree" && !tree && (
+          <p style={{ padding: 16, color: "#888" }}>Loading {selectedFile}...</p>
+        )}
+
+        {selectedFile && tab === "tree" && tree && (
           <div style={{ flex: 1, display: "flex", minHeight: 0 }}>
             <div style={{ flex: 1, minWidth: 0 }}>
               <TreeView data={treeData} onSelect={setSelectedNode} width="100%" height={window.innerHeight - 50} />

@@ -84,6 +84,22 @@ Update this file at the end of each phase/step.
   original is byte-identical to before (`git status` clean on `Resources/`).
 - Not yet done in Phase 1: DataTypeTemplates browser with "used by" back-links.
 
+### Bug fix: cross-file data mixing in the Explorer (2026-11-09)
+User-reported: switching files quickly (e.g. MAYZAN -> another file before MAYZAN's
+slower parse/tree/validate finished) could show a *different* file's IED under the
+selected file's name -- `openFile` in `App.jsx` never cleared the previous file's
+`tree`/`report` state before fetching the new one, and had no request-sequencing guard,
+so a slower response for an older selection could resolve after a faster one and
+silently overwrite the correct data. Fixed with a request-token ref: each `openFile`/
+`openGraphTab` call is stamped with a token, and any response whose token no longer
+matches the latest call is discarded rather than applied. `tree`/`report` are now also
+cleared immediately on file switch (shows "Loading {file}..." instead of stale content).
+Verified against the backend directly first (MAYZAN parses to its own 11 real IEDs, 1
+Substation -- no "TEST_01" anywhere; the file's own empty `ConductingEquipment` lists
+are a genuine pre-existing defect in that fixture, not a parsing bug), then re-verified
+the fix live by rapid-clicking between files in both directions (small-then-large and
+large-then-small) and confirming the display never showed the wrong file's data.
+
 ## Left to do
 
 - **Phase 1 — Explorer** (remaining): DataTypeTemplates browser with "used by" back-links.
