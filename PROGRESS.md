@@ -135,6 +135,18 @@ level, broken only through the real nginx layer -- isn't caught by pytest at all
 it needs an actual `docker compose up` + request-through-the-proxy check, which the
 plan's verification section already calls for as a standing gate.
 
+### Bug fix: frontend dev port (5173) exposed directly, bypassing the API proxy (2026-11-10)
+User-reported (after the 413 fix): import still failed, now with "Unexpected token '<',
+\"<!doctype \"... is not valid JSON". Root cause: `docker-compose.override.yml` published
+the frontend dev server on host port 5173 for convenience, and the user was on
+`localhost:5173` rather than `localhost:8080` (reverse-proxy). Port 5173 has no `/api`
+proxy, so every `fetch("/api/...")` from a page loaded there hit vite's dev server
+directly, which has nothing at that path and falls back to serving `index.html` -- hence
+the HTML-where-JSON-was-expected error, for every API call, not just import. Removed the
+`5173:80` port mapping entirely: the frontend has no standalone value without the API
+(every view depends on it), so publishing that port was a pure footgun. Verified 5173 is
+now unreachable (connection refused) and 8080 still serves everything correctly.
+
 ## Left to do
 
 - **Phase 1 — Explorer** (remaining): DataTypeTemplates browser with "used by" back-links.

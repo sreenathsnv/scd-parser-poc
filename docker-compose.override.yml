@@ -10,10 +10,10 @@ services:
     build:
       context: ./services/frontend
       target: build
-    # port 80 to match reverse-proxy's fixed upstream (not vite's default 5173)
+    # port 80 to match reverse-proxy's upstream. No host port published here on
+    # purpose: this container has no /api proxy, so direct access breaks every
+    # API call. Always use reverse-proxy at http://localhost:8080.
     command: ["npm", "run", "dev", "--", "--host", "--port", "80"]
-    ports:
-      - "5173:80"
     volumes:
       - ./services/frontend/src:/app/src
       - ./services/frontend/index.html:/app/index.html
