@@ -121,6 +121,20 @@ Covered by `tests/test_import_api.py` (upload -> tree/validate work end-to-end,
 unsupported extension rejected, name collision disambiguated) using FastAPI's
 TestClient against a tmp_path-isolated `FILES_DIR`.
 
+### Bug fix: real-world SCD file import rejected with 413 (2026-11-10)
+User-reported: "SCD file import is not working". `tests/test_import_api.py` only
+exercised the FastAPI app directly (bypassing the dockerized reverse-proxy), so it
+missed that nginx's default `client_max_body_size` (1 MB) was rejecting the upload
+before it ever reached `api-gateway` -- both real fixture files are over that
+(MAYZAN ~3 MB, DTech26 ~2.7 MB), while the import tests and my own earlier manual
+curl check both only used the 1 KB `project.scd`. Fixed with
+`client_max_body_size 100m` in `services/reverse-proxy/nginx.conf`. Re-verified by
+importing the actual MAYZAN and DTech26 files (not a small fixture) through the real
+proxy on port 8080, both now 200 OK. This class of bug -- correct at the FastAPI-app
+level, broken only through the real nginx layer -- isn't caught by pytest at all;
+it needs an actual `docker compose up` + request-through-the-proxy check, which the
+plan's verification section already calls for as a standing gate.
+
 ## Left to do
 
 - **Phase 1 — Explorer** (remaining): DataTypeTemplates browser with "used by" back-links.
