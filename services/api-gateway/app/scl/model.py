@@ -388,7 +388,12 @@ class SclDocument:
     _lxml_tree: object = None
     raw_bytes: bytes = b""
     uses_crlf: bool = False
+    # True forever once any edit has mutated the lxml tree -- tells the
+    # serializer to stop using the verbatim raw_bytes fast path.
     dirty: bool = False
+    # UI-facing "has unsaved changes" flag: set with dirty, but cleared by
+    # save-overwrite (not save-as-copy, which leaves the original untouched).
+    unsaved: bool = False
 
     def find_ied(self, name: str) -> Optional[IED]:
         for ied in self.ieds:

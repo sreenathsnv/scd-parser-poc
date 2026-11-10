@@ -16,7 +16,7 @@ def serialize(doc: m.SclDocument) -> bytes:
     if not doc.dirty:
         return doc.raw_bytes
 
-    tree: etree._Element = doc._lxml_tree
+    tree: etree._ElementTree = doc._lxml_tree
     docinfo_encoding = "UTF-8"
     body = etree.tostring(tree, xml_declaration=False, encoding=docinfo_encoding)
 

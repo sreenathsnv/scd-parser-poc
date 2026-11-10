@@ -46,9 +46,10 @@ def parse_bytes(raw: bytes, source_path: str = "<memory>") -> m.SclDocument:
         huge_tree=True,
     )
     try:
-        root = etree.fromstring(raw, parser=parser)
+        tree = etree.fromstring(raw, parser=parser).getroottree()
     except etree.XMLSyntaxError as exc:
         raise ParseError(f"{source_path}: not well-formed XML: {exc}") from exc
+    root = tree.getroot()
 
     if _local(root.tag) != "SCL":
         raise ParseError(f"{source_path}: root element is <{_local(root.tag)}>, expected <SCL>")
@@ -59,7 +60,10 @@ def parse_bytes(raw: bytes, source_path: str = "<memory>") -> m.SclDocument:
         scl_revision=_attr(root, "revision"),
         header=None,
     )
-    doc._lxml_tree = root
+    # the ElementTree (not just the root Element) so top-level comments/PIs
+    # before or after <SCL> survive a round trip -- lxml drops them
+    # otherwise, unlike what etree.tostring(element) implies
+    doc._lxml_tree = tree
     doc.raw_bytes = raw  # used by the serializer's verbatim fast-path
     doc.uses_crlf = b"\r\n" in raw
 

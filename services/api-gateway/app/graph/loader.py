@@ -5,11 +5,16 @@ Unresolved refs (ExtRef/FCDA) are kept, tagged resolved=false, not dropped.
 """
 from __future__ import annotations
 
+import threading
 from dataclasses import dataclass, field
 
 from ..scl import model as m
 from . import schema as s
 from .neo4j_client import ensure_constraints, get_driver
+
+# serializes delete+reinsert so two overlapping ingest() calls (same or
+# different file) can't interleave a DELETE with another's in-flight MERGE
+_INGEST_LOCK = threading.Lock()
 
 
 def _k(*parts: str) -> str:
@@ -291,7 +296,7 @@ def _load_communication(batch: _Batch, doc: m.SclDocument, file_key: str) -> Non
             batch.edge(sn_key, s.E_CONTAINS, cap_key)
             ied_key = _k(sp, "IED", cap.ied_name)
             batch.edge(cap_key, s.E_ON, sn_key)
-            batch.edge(ied_key, "CONNECTED_VIA", cap_key, resolved=any(i.name == cap.ied_name for i in doc.ieds))
+            batch.edge(ied_key, s.E_CONNECTED_VIA, cap_key, resolved=any(i.name == cap.ied_name for i in doc.ieds))
 
 
 # ---------------------------------------------------------------------------
@@ -363,7 +368,7 @@ def _resolve_fcda_references(batch: _Batch, doc: m.SclDocument) -> None:
 
 def delete_file_subgraph(source_path: str) -> None:
     driver = get_driver()
-    with driver.session() as session:
+    with _INGEST_LOCK, driver.session() as session:
         session.run(f"MATCH (n:{s.COMMON_LABEL} {{sourcePath: $sp}}) DETACH DELETE n", sp=source_path)
 
 
@@ -371,7 +376,7 @@ def ingest(doc: m.SclDocument) -> dict:
     ensure_constraints()  # idempotent; self-heals if Neo4j wasn't up at app startup
     batch = build_batch(doc)
     driver = get_driver()
-    with driver.session() as session:
+    with _INGEST_LOCK, driver.session() as session:
         session.run(f"MATCH (n:{s.COMMON_LABEL} {{sourcePath: $sp}}) DETACH DELETE n", sp=doc.source_path)
 
         nodes_by_label: dict[str, list[dict]] = {}
